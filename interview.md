@@ -7,28 +7,27 @@
 java基础题:
 string stringbuffer stringbuilder intern原理及区别
 set list map 有哪些实现集合 常用的那些 原理是啥
-arrayset treeset
-arralist linkedlist
-hashmap treemap
+HashSet 原理跟HashMap类似 TreeSet 需要实现Comparable接口或Comparator
+ArrayList 适合存储定长数据数组 LinkedList 适合插入删除场景 查询ArrayList比LinkedList快 且ArrayList内存占用小
+HashMap 原理是数组 + 链表 到达阈值变红黑树 TreeMap 红黑树 需要实现Comparable接口 或Comparator
 concurrenthashmap 线程安全实现原理 volatile cas synchronized 原理slot局部加锁
 类加载器 双亲委派
 
 java 设计模式:
-单例模式 工厂模式 适配器模式 代理模式 观察者模式
+单例模式(懒加载 懒汉 双重检验(volatile) 静态内部类 实例加载 饿汉 单例) 工厂模式 建造者模式 适配器模式 桥接模式 代理模式 观察者模式
 
 java线程题:
 线程池 需要设置哪些参数
-corePoolSize maximumPoolSize keepAliveTime timeUnit blockingQueue threadFactory rejectedHandler
+corePoolSize(核心线程数 可理解为最小线程数) maximumPoolSize(最大线程数) keepAliveTime(超时时间) timeUnit(超时时间单位) blockingQueue(阻塞队列) threadFactory(线程工厂) rejectedHandler(拒绝策略)
 blockingQueue:
 ArrayBlockingQueue // 定长的队列
 LinkedBlockingQueue // 单链表队列 有oom风险
 LinkedBlockingDeque // 双向链表的队列
 DelayQueue // 延时队列
 PriorityBlockingQueue // 排序队列 优先级
+SynchronousQueue // 只能一个线程运行 其余等待
 LinkedTransferQueue // SynchronousQueue升级 有等待进队列 没有则直接运行 避免锁操作
-SynchronousQueue // 等待队列
 ConcurrentLinkedQueue LinkedBlockingQueue 区别在于ConcurrentLinkedQueue的API原来.size()是要遍历一遍集合的 在线程池经常要判断size 所以在线程池不用
-
 
 拒绝模式:
 AbortPolicy // 抛异常
@@ -45,13 +44,13 @@ ForkJoinPool(fork join模式的线程池) ScheduledExecutorService(定时任务�
 
 java线程安全:
 volatile 关键词 强制工作内存变量到主内存并不可进入寄存器 但只保证可见性 不能保证原子性
-synchronized 关键词 保证只有一个线程可运行 非公平锁    可配合wait notify用
+synchronized 关键词 保证只有一个线程可运行 非公平锁  可配合wait notify用
 原理: 简单说就是 自旋获取锁 获取不到就进竞争队列 等待下次再自旋锁 如果竞争队列过多会进入到等待队列 等获取锁释放再从等待队列中拉入竞争队列
 CompareAndSwap 调用native内核cpu的方法 基于cas的有 Atomic AQS Semaphore
 threadLocal 线程自带变量 内部弱引用 线程隔离的形式的线程安全访问
 ReentrantLock ReentrantReadWriteLock 基于AQS CAS  支持线程重进入 可设置非公平锁 公平锁
 StampedLock 不支持线程重入 乐观锁策略
-CopyAndWriteArrayList/Set 写时加锁拷贝 避免读取锁
+CopyOnWriteArrayList/Set 写时加锁拷贝 避免读取锁
  
 spring相关问题
 spring 底层原理 反射
@@ -59,7 +58,7 @@ spring 底层原理 反射
 springboot的好处
 
 java nio/aio:
-处理大文件 用FileChannel AsynchronousFileChannel RandomAccessFile(MappedByteBuffer)
+处理大文件 用FileChannel AsynchronousFileChannel(异步) RandomAccessFile(MappedByteBuffer)
 nio非阻塞(多路复用原理) aio内核原理 reactor模式 proactor模式 
 
 jvm原理:
@@ -73,7 +72,7 @@ redis 原子性命令有哪些
 
 数据库
 mysql innodb 表空间原理 索引原理
-mysql的事务四大特性
+mysql的事务四大特性 重点看可重复读
 mysql的事务隔离级别 原理
 如何实现乐观锁 MVCC原理(XtraDB)
 mysql 有哪些悲观锁 行锁的命令有几种 何时会表锁? 
